@@ -24,27 +24,13 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-namespace LegacyTests\Endpoints;
+declare(strict_types=1);
 
-use LegacyTests\Unit\ContextMocker;
-use PHPUnit\Framework\TestCase;
+namespace PrestaShop\PrestaShop\Core\Domain\Product\FeatureValue\Exception;
 
-abstract class AbstractEndpointTest extends TestCase
+/**
+ * Thrown when you try to associate the same value more than once.
+ */
+class DuplicateFeatureValueAssociationException extends ProductFeatureValueException
 {
-    /**
-     * @var ContextMocker
-     */
-    protected $contextMocker;
-
-    protected function setUp()
-    {
-        define('_PS_ROOT_DIR_', __DIR__ . '/../..');
-        define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_ . '/admin-dev');
-        require_once _PS_ROOT_DIR_ . '/config/defines.inc.php';
-        require_once _PS_CONFIG_DIR_ . 'autoload.php';
-        require_once _PS_CONFIG_DIR_ . 'bootstrap.php';
-        $this->contextMocker = new ContextMocker();
-        $this->contextMocker->mockContext();
-        parent::setUp();
-    }
 }

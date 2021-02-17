@@ -1,4 +1,3 @@
-<?php
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -24,27 +23,6 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-namespace LegacyTests\Endpoints;
-
-use LegacyTests\Unit\ContextMocker;
-use PHPUnit\Framework\TestCase;
-
-abstract class AbstractEndpointTest extends TestCase
-{
-    /**
-     * @var ContextMocker
-     */
-    protected $contextMocker;
-
-    protected function setUp()
-    {
-        define('_PS_ROOT_DIR_', __DIR__ . '/../..');
-        define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_ . '/admin-dev');
-        require_once _PS_ROOT_DIR_ . '/config/defines.inc.php';
-        require_once _PS_CONFIG_DIR_ . 'autoload.php';
-        require_once _PS_CONFIG_DIR_ . 'bootstrap.php';
-        $this->contextMocker = new ContextMocker();
-        $this->contextMocker->mockContext();
-        parent::setUp();
-    }
-}
+export default {
+  updateSubmitButtonState: 'updateSubmitButtonState',
+};

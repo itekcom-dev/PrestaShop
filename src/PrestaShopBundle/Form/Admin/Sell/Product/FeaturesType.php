@@ -24,27 +24,37 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-namespace LegacyTests\Endpoints;
+declare(strict_types=1);
 
-use LegacyTests\Unit\ContextMocker;
-use PHPUnit\Framework\TestCase;
+namespace PrestaShopBundle\Form\Admin\Sell\Product;
 
-abstract class AbstractEndpointTest extends TestCase
+use PrestaShopBundle\Form\Admin\Type\IconButtonType;
+use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class FeaturesType extends TranslatorAwareType
 {
     /**
-     * @var ContextMocker
+     * {@inheritDoc}
      */
-    protected $contextMocker;
-
-    protected function setUp()
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        define('_PS_ROOT_DIR_', __DIR__ . '/../..');
-        define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_ . '/admin-dev');
-        require_once _PS_ROOT_DIR_ . '/config/defines.inc.php';
-        require_once _PS_CONFIG_DIR_ . 'autoload.php';
-        require_once _PS_CONFIG_DIR_ . 'bootstrap.php';
-        $this->contextMocker = new ContextMocker();
-        $this->contextMocker->mockContext();
-        parent::setUp();
+        $builder
+            ->add('feature_values', CollectionType::class, [
+                'entry_type' => FeatureValueType::class,
+                'required' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype_name' => '__FEATURE_VALUE_INDEX__',
+            ])
+            ->add('add_feature', IconButtonType::class, [
+                'label' => $this->trans('Add a feature', 'Admin.Catalog.Feature'),
+                'icon' => 'add_circle',
+                'attr' => [
+                    'class' => 'btn-outline-primary',
+                ],
+            ])
+        ;
     }
 }

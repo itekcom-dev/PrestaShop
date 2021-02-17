@@ -24,27 +24,53 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-namespace LegacyTests\Endpoints;
+declare(strict_types=1);
 
-use LegacyTests\Unit\ContextMocker;
-use PHPUnit\Framework\TestCase;
+namespace PrestaShopBundle\Form\Admin\Type;
 
-abstract class AbstractEndpointTest extends TestCase
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+/**
+ * A form button with material icon.
+ */
+class IconButtonType extends ButtonType
 {
     /**
-     * @var ContextMocker
+     * {@inheritDoc}
      */
-    protected $contextMocker;
-
-    protected function setUp()
+    public function configureOptions(OptionsResolver $resolver)
     {
-        define('_PS_ROOT_DIR_', __DIR__ . '/../..');
-        define('_PS_ADMIN_DIR_', _PS_ROOT_DIR_ . '/admin-dev');
-        require_once _PS_ROOT_DIR_ . '/config/defines.inc.php';
-        require_once _PS_CONFIG_DIR_ . 'autoload.php';
-        require_once _PS_CONFIG_DIR_ . 'bootstrap.php';
-        $this->contextMocker = new ContextMocker();
-        $this->contextMocker->mockContext();
-        parent::setUp();
+        parent::configureOptions($resolver);
+        $resolver->setDefaults([
+            'icon' => 'add_circle',
+        ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        parent::buildView($view, $form, $options);
+        $view->vars['icon'] = $options['icon'];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getParent()
+    {
+        return ButtonType::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'icon_button';
     }
 }
